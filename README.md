@@ -1,3 +1,70 @@
+# SSL in Tropical Soundscapes — Dena J. Gibbon
+
+This repository contains a small self-supervised learning (SSL) demo and utilities
+for pretraining an audio encoder on tropical soundscape recordings, extracting
+embeddings, and visualizing them. It is derived from the NVIDIA BigVGAN codebase
+for convenience, but the focus here is the SSL pipeline and reproducible demos.
+
+This forked copy belongs to Dena J. Gibbon and is intended for research and
+experimentation on tropical soundscape audio.
+
+--
+
+## What this repo contains (selected)
+- `demo/ssl-pipeline.py` — combined pretrain/extract/plot CLI for quick experiments
+- `demo/ssl_pretrain.py` — small SimCLR-style SSL pretraining script on mel spectrograms
+- `demo/extract_ssl_embeddings.py` — compute encoder embeddings from a checkpoint
+- `demo/plot_features_umap.py` — visualize features with UMAP (PCA fallback)
+- Other BigVGAN code is preserved for reference and optional use.
+
+## Quickstart (local smoke demo)
+
+1) Create and activate Python environment (example using conda):
+
+```bash
+conda create -n bigvgan python=3.10 -y
+conda activate bigvgan
+# Install Torch following https://pytorch.org (pick the right command for CPU/MPS/CUDA)
+pip install librosa soundfile numpy matplotlib scikit-learn
+# optional: umap-learn for nicer plots
+pip install umap-learn
+```
+
+2) Run a quick pretrain (1 epoch smoke run), extract embeddings, and plot:
+
+```bash
+# from repo root
+python demo/ssl-pipeline.py pretrain --data_root /path/to/my_audio --out_dir demo/ssl --epochs 1 --batch_size 8
+python demo/ssl-pipeline.py extract --checkpoint demo/ssl/encoder_epoch1.pth --data_root /path/to/my_audio --out_npz demo/ssl/features_ssl.npz --batch_size 8
+python demo/ssl-pipeline.py plot --features demo/ssl/features_ssl.npz --out_dir demo/ssl
+```
+
+3) Outputs will be saved in `demo/ssl/` by default:
+- `encoder_epoch1.pth` — pretrained encoder checkpoint
+- `features_ssl.npz` — extracted embeddings and metadata
+- `features_umap_ssl.png` — 2D visualization (UMAP or PCA fallback)
+
+## Notes and attribution
+- This repository was created for experiments on tropical soundscapes. The SSL
+  scripts included here are small, self-contained, and intended for fast
+  iteration on modest hardware (CPU/MPS/GPU).
+- The original BigVGAN project (NVIDIA) provided the surrounding codebase and
+  utilities. See the original project for vocoder models, training code, and
+  large-scale experiments: https://github.com/NVIDIA/BigVGAN
+
+## License
+This repo retains the original licensing for files copied from BigVGAN. Any
+new scripts and utilities added here by Dena J. Gibbon are provided under the
+same terms as the original project unless otherwise noted.
+
+---
+
+If you'd like, I can:
+- create a minimal `ssl-only` branch and push just the demo scripts there,
+- add a short CONTRIBUTING or USAGE guide, or
+- create a small GitHub Actions workflow to run the smoke pretrain on push.
+
+Tell me which and I’ll do it.
 ## BigVGAN: A Universal Neural Vocoder with Large-Scale Training
 
 #### Sang-gil Lee, Wei Ping, Boris Ginsburg, Bryan Catanzaro, Sungroh Yoon
