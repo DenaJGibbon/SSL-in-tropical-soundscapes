@@ -1,0 +1,13 @@
+#conda create -n bigvgan python=3.10 pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+cd /Users/denaclink/Desktop/VSCodeRepos/NVIDIA/BigVGAN 
+conda activate bigvgan
+python /Users/denaclink/Desktop/VSCodeRepos/NVIDIA/BigVGAN/run_bigvgan_check.py
+
+python BigVGAN/run_bigvgan_check.py
+
+python BigVGAN/extract_features.py --input_dir /Users/denaclink/Desktop/RStudioProjects/gibbonNetR_notgithub/data/trainingclips --out_dir demo/out
+python BigVGAN/extract_features.py --input_dir /Users/denaclink/Desktop/RStudioProjects/gibbonNetR_notgithub/data/trainingclips --out_dir demo/out --fmin 500 --fmax 3000
+
+python BigVGAN/demo/train_nn_classifier.py --input_dir /path/to/data --out_dir demo/out --fmin 500 --fmax 3000
+
+python demo/train_nn_classifier.py --input_dir /Users/denaclink/Desktop/RStudioProjects/gibbonNetR_notgithub/data/trainingclips --out_dir demo/out --epochs 3 --batch_size 8 --fmin 500 --fmax 3000
