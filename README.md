@@ -44,6 +44,69 @@ python demo/ssl-pipeline.py plot --features demo/ssl/features_ssl.npz --out_dir 
 - `features_ssl.npz` — extracted embeddings and metadata
 - `features_umap_ssl.png` — 2D visualization (UMAP or PCA fallback)
 
+## What we did (Sep 25, 2025)
+
+This repository was cleaned so it contains only the SSL demo and supporting
+scripts for experiments on tropical soundscapes. A concise summary of the
+actions performed:
+
+- Created a focused demo folder and small helper scripts for SSL pretraining,
+  embedding extraction, and plotting (`demo/ssl_pretrain.py`,
+  `demo/extract_ssl_embeddings.py`, `demo/plot_features_umap.py`,
+  `demo/ssl-pipeline.py`).
+- Rewrote the top-level `README.md` so the project clearly reflects Dena J.
+  Gibbon's SSL-in-tropical-soundscapes work and quickstart instructions.
+- Created a clean single-commit branch containing only the demo files and the
+  new README and force-pushed it to your GitHub repository
+  (https://github.com/DenaJGibbon/SSL-in-tropical-soundscapes.git) as `main`.
+
+Why this was done
+- The original upstream repository (NVIDIA/BigVGAN) is large and contains a
+  lot of code not needed for quick SSL experiments. The cleanup produces a
+  lightweight repo focused on your experiments, easier to share and maintain.
+
+Important notes about local vs remote state
+- The remote `main` branch on your GitHub now contains only the cleaned demo
+  files. This was applied with a forced update (history on the remote was
+  replaced).
+- Your local `main` branch still contains the full BigVGAN tree and history.
+  Nothing destructive was done locally — you still have the original code and
+  commits in your working copy.
+
+How to sync and recommended workflows
+- If you want a local branch that mirrors the cleaned remote `main` (recommended):
+
+```bash
+# create a local branch tracking the remote clean main
+git fetch dena
+git checkout -b ssl-only dena/main
+```
+
+- If you want to keep the original BigVGAN code locally on a safe branch
+  while switching `main` to the clean tree, you can rename your current local
+  main to keep it:
+
+```bash
+# preserve your local full BigVGAN history
+git branch -m main bigvgan-orig
+# create a new local main that tracks the cleaned remote
+git fetch dena
+git checkout -b main dena/main
+```
+
+- If instead you want to restore the remote to the original BigVGAN later,
+  you can force-push from a branch that holds the original tree (exercise
+  caution; this overwrites remote history):
+
+```bash
+# force-push your preserved branch back to the remote
+git push dena bigvgan-orig:main --force
+```
+
+If you'd like, I can create the `ssl-only` local branch for you now, or
+preserve the original BigVGAN tree into a `bigvgan-orig` branch locally so
+you can switch between them easily. Tell me which you prefer.
+
 ## Notes and attribution
 - This repository was created for experiments on tropical soundscapes. The SSL
   scripts included here are small, self-contained, and intended for fast
